@@ -38,6 +38,10 @@ export default {
       screens: {
         xs: "420px",
         },
+      fontFamily: {
+          inter: ["var(--font-inter)"],
+          "space-grotesk": ["var(--font-space-grotesk)"],
+        },
     },
   },
   plugins: [],
