@@ -10,6 +10,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ROUTES from '@/constants/routes';
 import { Button } from '@/components/ui/button';
+import NavLinks from './NavLinks';
   
 
 const MobileNavigation = () => {
@@ -46,11 +47,11 @@ const MobileNavigation = () => {
           </p>
           </Link>
 
-        <div className='no-scrollbar flex h-[calc(100hv-80px)]
+        <div className='no-scrollbar flex h-full
          flex-col justify-between overflow-y-auto'>
          <SheetClose asChild>
           <section className='flex h-full flex-col gap-6 pt-16'>
-           <p>Nav Links</p>
+           <NavLinks isMobileNav={true} />
           </section>
          </SheetClose>
 
