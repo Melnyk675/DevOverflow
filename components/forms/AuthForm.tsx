@@ -6,7 +6,6 @@ import {
     FieldValues,  
     DefaultValues,
     Path, 
-    SubmitHandler, 
     useForm 
 } from "react-hook-form";
 import { z, ZodType } from "zod";
@@ -41,7 +40,6 @@ const AuthForm = <T extends FieldValues>({
     defaultValues: defaultValues as DefaultValues<T>
   });
 
-const handleSubmit: SubmitHandler<T> = async () => {};
 
 const buttonText = formType === "SIGN_IN" ? "Sign in" : "Sign up";
 
