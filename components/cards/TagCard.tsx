@@ -12,7 +12,7 @@ interface Props {
     compact?: boolean;
 }
 
-const TagCard = ({ _id, name, questions, showCount, compact }: Props) => {
+const TagCard = ({ _id, name, questions, showCount }: Props) => {
    const iconClass = getDeviconClassName(name);
 
   return (
