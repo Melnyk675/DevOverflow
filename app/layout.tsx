@@ -37,7 +37,7 @@ const RootLayout = async ({ children}: {children: ReactNode }) => {
       <head>
         <link 
           rel="stylesheet" 
-          type='text/css' 
+          type="text/css" 
           href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" 
         />    
       </head>
