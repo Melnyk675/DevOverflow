@@ -22,6 +22,10 @@ const LocalSearch = ({ route, imgSrc, placeholder, otherClasses }
   const [searchQuery, setSearchQuery] = useState(query);
 
   useEffect(() => {
+     const delayDebounceFn = setTimeout(() => {
+        alert("Debounced");
+     }, 300);
+
      if (searchQuery) {
         const newUrl = formUrlQuery({
           params: searchParams.toString(),
@@ -40,13 +44,14 @@ const LocalSearch = ({ route, imgSrc, placeholder, otherClasses }
           router.push(newUrl, {scroll: false});
         }
      }
+
+     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery, router, route, searchParams, pathname]);
 
   return (
     <div className={`background-light800_darkgradient flex min-h-[56px]
      grow items-center gap-4 rounded-[10px] px-4 ${otherClasses}`}
     >
-     {searchParams.toString()}
 
      <Image 
       src={imgSrc}
