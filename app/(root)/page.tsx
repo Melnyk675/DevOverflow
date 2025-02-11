@@ -1,3 +1,4 @@
+import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,7 @@ const questions = [
     { _id: "1", name: "React" },
     { _id: "2", name: "Javascript" },
    ], 
-     author: { _id: "1", name: "John Doe" },
+     author: { _id: "1", name: "John Doe", image: "https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" },
      upvotes: 10,
      answers: 5,
      views: 100,
@@ -21,7 +22,7 @@ const questions = [
        { _id: "1", name: "React" },
        { _id: "2", name: "Javascript" },
       ], 
-        author: { _id: "1", name: "John Doe" },
+        author: { _id: "1", name: "John Doe", image: "https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" },
         upvotes: 10,
         answers: 5,
         views: 100,
@@ -72,8 +73,10 @@ const Home = async ({ searchParams }: SearchParams) => {
        <HomeFilter />
       <div className="mt-10 w-full flex flex-col gap-6">
         {filteredQuestions.map((question) => (
-          <h1 
-             key={question._id}>{question.title}</h1>
+          <QuestionCard 
+            key={question._id} 
+            question={question} 
+          />
        ))}
       </div>
      </>
