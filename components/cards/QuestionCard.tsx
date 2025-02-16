@@ -35,7 +35,7 @@ const QuestionCard = ({ question: { _id, title, tags, author, upvotes,
         {tags.map(( tag: Tag ) => (
           <TagCard 
             key={tag._id}
-            _id={Number(tag._id)}
+            _id={tag._id}
             name={tag.name}
             compact
           />
