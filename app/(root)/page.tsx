@@ -1,9 +1,10 @@
+import Link from "next/link";
+
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-import Link from "next/link";
 
 const questions = [
   { _id: 1, title: "How to learn React?",
@@ -35,6 +36,7 @@ const questions = [
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
+
   const { query = "", filter = "" } = await searchParams;
 
   const filteredQuestions = questions.filter((question) => {
@@ -75,7 +77,7 @@ const Home = async ({ searchParams }: SearchParams) => {
         {filteredQuestions.map((question) => (
           <QuestionCard 
             key={question._id} 
-            question={question} 
+            question={{ ...question, _id: String(question._id) }} 
           />
        ))}
       </div>
