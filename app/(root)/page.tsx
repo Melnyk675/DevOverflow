@@ -1,12 +1,11 @@
 import Link from "next/link";
-
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
 import handleError from "@/lib/handlers/error";
-
+import { api } from "@/lib/api";
 
 const questions = [
   { _id: 1, title: "How to learn React?",
@@ -35,7 +34,7 @@ const questions = [
 
 const test = async () => {
   try {
-    throw new Error("Test error");
+    return await api.users.getAll();
   } catch (error) {
      return handleError(error);
   }
@@ -46,7 +45,9 @@ const test = async () => {
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
-  await test();
+  const users = await test();
+
+  console.log(users);
  
   const { query = "", filter = "" } = await searchParams;
 
