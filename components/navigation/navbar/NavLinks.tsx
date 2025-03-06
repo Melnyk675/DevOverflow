@@ -1,27 +1,34 @@
 "use client";
 
+import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 import { usePathname } from 'next/navigation';
-import { sidebarLinks } from '@/constants';
-import Link from 'next/link';
-import Image from 'next/image';
-import { cn } from '@/lib/utils';
+
 import { SheetClose } from '@/components/ui/sheet';
+import { sidebarLinks } from '@/constants';
+import { cn } from '@/lib/utils';
 
-
-const NavLinks = ({ isMobileNav = false }: { isMobileNav?: boolean }) => {
+const NavLinks = ({ 
+  isMobileNav = false, 
+  userId, 
+}: { 
+  isMobileNav?: boolean, 
+  userId?: string, 
+}) => {
    const pathname = usePathname();
-   const userId = 1;
-  
-    return <>{sidebarLinks.map((item) => {
-        const isActive = (pathname.includes(item.route) 
-             && item.route.length > 1) || pathname === item.route;
-            
-             if(item.route === "/profile") {
-                if (userId) item.route = `${item.route}/${userId}`;
-                else return null;
-             }
 
+    return (
+     <>
+      {sidebarLinks.map((item) => {
+        const isActive = 
+          (pathname.includes(item.route) && item.route.length > 1) || 
+          pathname === item.route;
+         
+          if(item.route === "/profile") {
+             if (userId) item.route = `${item.route}/${userId}`;
+             else return null;
+          }
 
         const LinkComponent = (
           <Link 
@@ -60,8 +67,9 @@ const NavLinks = ({ isMobileNav = false }: { isMobileNav?: boolean }) => {
             {LinkComponent}
         </React.Fragment>
         );
-    })}
-   </>;
+      })}
+     </>
+    );
   };
 
 export default NavLinks;
