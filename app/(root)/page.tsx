@@ -4,50 +4,23 @@ import HomeFilter from "@/components/filters/HomeFilter";
 import LocalSearch from "@/components/search/LocalSearch";
 import { Button } from "@/components/ui/button";
 import ROUTES from "@/constants/routes";
-
-const questions = [
-  { _id: 1, title: "How to learn React?",
-   tags: [
-    { _id: "1", name: "React" },
-    { _id: "2", name: "Javascript" },
-   ], 
-     author: { _id: "1", name: "John Doe", image: "https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" },
-     upvotes: 10,
-     answers: 5,
-     views: 100,
-     createdAt: new Date(), 
-    },
-    { _id: 2, title: "How to learn Javascript?",
-      tags: [
-       { _id: "1", name: "React" },
-       { _id: "2", name: "Javascript" },
-      ], 
-        author: { _id: "1", name: "John Doe", image: "https://static.vecteezy.com/system/resources/previews/024/183/525/non_2x/avatar-of-a-man-portrait-of-a-young-guy-illustration-of-male-character-in-modern-color-style-vector.jpg" },
-        upvotes: 10,
-        answers: 5,
-        views: 100,
-        createdAt: new Date(), 
-       },
- ]
+import { getQuestions } from "@/lib/actions/question.action";
 
  interface SearchParams {
   searchParams: Promise<{[key: string]: string}>;
 }
 
 const Home = async ({ searchParams }: SearchParams) => {
- 
-  const { query = "", filter = "" } = await searchParams;
+  const { page, pageSize, query, filter } = await searchParams;
 
-  const filteredQuestions = questions.filter((question) => {
-     const matchesQuery = question.title
-      .toLowerCase()
-      .includes(query.toLowerCase());
-     const matchesFilter = filter 
-      ? question.tags[0].name.toLowerCase() === filter
-      .toLowerCase()
-      : true;
-      return matchesQuery && matchesFilter;
-});
+  const { success, data, error } = await getQuestions({
+    page: Number(page) || 1,
+    pageSize: Number(pageSize) || 10,
+    query: query || "",
+    filter: filter || "",
+  });
+
+  const { questions } = data|| {};
   
   return (
     <>
@@ -71,15 +44,30 @@ const Home = async ({ searchParams }: SearchParams) => {
          otherClasses="flex-1"
          />
       </section>
-       <HomeFilter />
+       <HomeFilter /> 
+
+     {success ? (
       <div className="mt-10 w-full flex flex-col gap-6">
-        {filteredQuestions.map((question) => (
+        {questions && questions.length > 0 ? (
+         questions.map((question) => (
           <QuestionCard 
             key={question._id} 
-            question={{ ...question, _id: String(question._id) }} 
+            question={question} 
           />
-       ))}
+       ))
+      ) : (
+        <div className="mt-10 flex w-full items-center justify-center">
+          <p className="text-dark400_light700">No questions found</p>
+        </div>
+       )}
       </div>
+     ) : (
+       <div className="mt-10 flex w-full items-center justify-center">
+          <p className="text-dark400_light700">
+            {error?.message || "Failed to fetch questions"}
+          </p>
+       </div>
+      )}
      </>
      )
    }

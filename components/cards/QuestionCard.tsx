@@ -22,7 +22,7 @@ const QuestionCard = ({ question: { _id, title, tags, author, upvotes,
           </span>
 
 
-        <Link href={ROUTES.QUESTION(Number(_id))}>
+        <Link href={ROUTES.QUESTION(_id)}>
           <h3 className='sm:h3-semibold base-semibold
            text-dark200_light900 line-clamp-1 flex-1'>
             {title}
@@ -48,7 +48,7 @@ const QuestionCard = ({ question: { _id, title, tags, author, upvotes,
           alt={author.name}
           value={author.name}
           title={`• asked ${getTimeStamp(createdAt)}`}
-          href={ROUTES.PROFILE(Number(author._id))}
+          href={ROUTES.PROFILE(author._id)}
           textStyles="body-medium text-dark400_light700"
           isAuthor
         />
