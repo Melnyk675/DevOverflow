@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import ROUTES from '@/constants/routes';
-import { getTimeStamp } from '@/lib/utils';
+import { formatNumber, getTimeStamp } from '@/lib/utils';
 import TagCard from './TagCard';
 import Metric from '../Metric';
 
@@ -20,7 +20,6 @@ const QuestionCard = ({ question: { _id, title, tags, author, upvotes,
            line-clamp-1 flex sm:hidden'>
             {getTimeStamp(createdAt)}
           </span>
-
 
         <Link href={ROUTES.QUESTION(_id)}>
           <h3 className='sm:h3-semibold base-semibold
@@ -51,6 +50,7 @@ const QuestionCard = ({ question: { _id, title, tags, author, upvotes,
           href={ROUTES.PROFILE(author._id)}
           textStyles="body-medium text-dark400_light700"
           isAuthor
+          titleStyles="max-sm:hidden"
         />
 
         <div className='flex items-center gap-3 max-sm:flex-wrap 
@@ -72,7 +72,7 @@ const QuestionCard = ({ question: { _id, title, tags, author, upvotes,
           <Metric 
             imgUrl='/icons/eye.svg'
             alt="views"
-            value={views}
+            value={formatNumber(views)}
             title=" Views"
             textStyles="small-medium text-dark400_light800"
           />

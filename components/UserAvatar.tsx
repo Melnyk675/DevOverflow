@@ -1,18 +1,27 @@
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import React from 'react';
+import { AvatarFallback } from '@radix-ui/react-avatar';
+
 import ROUTES from '@/constants/routes';
 import { Avatar } from './ui/avatar';
-import { AvatarFallback } from '@radix-ui/react-avatar';
+import { cn } from '@/lib/utils';
 
 interface Props {
   id: string;
   name: string;
   imageUrl?: string | null;
   className?: string
+  fallbackClassName?: string
 }
 
-const UserAvatar = ({ id, name, imageUrl, className = "h-9 w-9" }: Props) => {
+const UserAvatar = ({ 
+  id, 
+  name, 
+  imageUrl, 
+  className = "h-9 w-9", 
+  fallbackClassName
+}: Props) => {
   const initials = name
     .split(" ")
     .map((word: string)=> word[0])
@@ -33,12 +42,15 @@ const UserAvatar = ({ id, name, imageUrl, className = "h-9 w-9" }: Props) => {
             quality={100}
           /> 
         ) : (
-          <AvatarFallback className='primary-gradient font-space-grotesk font-bold
-           text-white tracking-wider'>
+          <AvatarFallback 
+            className={cn(
+             'primary-gradient font-space-grotesk font-bold text-white tracking-wider', 
+             fallbackClassName
+          )}
+          >
             {initials}
           </AvatarFallback>
-        )}
-        
+        )}  
       </Avatar>
     </Link>
     )

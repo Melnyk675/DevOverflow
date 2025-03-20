@@ -43,10 +43,8 @@ const Tags = async ({ searchParams }: RouteParams) => {
               {tags.map((tag) => (
                 <TagCard 
                   key={tag._id}
-                  {...tag}
-                  
+                  {...tag}    
                 />
-
               ))}
             </div>
           )}
