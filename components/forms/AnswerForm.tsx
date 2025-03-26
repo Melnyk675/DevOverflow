@@ -1,14 +1,12 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { MDXEditorMethods } from "@mdxeditor/editor";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {   
-    useForm  
-} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { MDXEditorMethods } from "@mdxeditor/editor";
-import { ReloadIcon } from "@radix-ui/react-icons";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -66,15 +64,14 @@ const handleSubmit =  async (values: z.infer<typeof AnswerSchema>) => {
 }
 
 return (
-    <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
+    <div>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
         <h4 className="paragraph-semibold text-dark400_light800">
           Write your answer here
         </h4>
         <Button
           className="btn light-border-2 gap-1.5 rounded-md border px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
-          disabled={isAISubmitting}
-          
+          disabled={isAISubmitting}  
         >
           {isAISubmitting ? (
             <>
@@ -98,7 +95,7 @@ return (
     <Form {...form}>
       <form 
         onSubmit={form.handleSubmit(handleSubmit)} 
-        className="mt-6 flex w-full flex-col gap-6"
+        className="mt-6 flex w-full flex-col gap-10"
       >
           <FormField
             control={form.control}
@@ -129,7 +126,6 @@ return (
               )}
             </Button>
           </div>
-          
       </form>
     </Form>
   </div>

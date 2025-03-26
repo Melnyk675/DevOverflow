@@ -1,12 +1,11 @@
 import type { Metadata } from "next";
-import { ReactNode } from "react";
-
-import localFont from "next/font/local";
-import "./globals.css";
-
 import { ThemeProvider } from "next-themes";
-import { auth } from "@/auth";
 import { SessionProvider } from "next-auth/react"; 
+import localFont from "next/font/local";
+
+import "./globals.css";
+import { ReactNode } from "react";
+import { auth } from "@/auth";
 import { Toaster } from "@/components/ui/toaster";
 
 const inter = localFont({
@@ -45,12 +44,12 @@ const RootLayout = async ({ children}: {children: ReactNode }) => {
        <body
         className={`${inter.className} ${spaceGrotesk.variable} antialiased`}
       >
-          <ThemeProvider 
+        <ThemeProvider 
           attribute="class" 
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-          >
+        >
            {children}
          </ThemeProvider>
         <Toaster />
