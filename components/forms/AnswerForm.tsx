@@ -19,14 +19,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { AnswerSchema } from "@/lib/validations";
-import { useRef, useState } from "react";
+import { useRef, useState, useTransition } from "react";
+import { createAnswer } from "@/lib/actions/answer.action";
+import { toast } from "@/hooks/use-toast";
 
 const Editor = dynamic(() => import('@/components/editor'), {
     ssr: false
   });
 
-const AnswerForm = () => {
-   const [isSubmitting, setIsSubmitting] = useState(false);
+const AnswerForm = ({ questionId }: { questionId: string }) => {
+   const [isAnswering, startAnsweringTransition] = useTransition();
    const [isAISubmitting, setIsAISubmitting] = useState(false);
 
 const editorRef = useRef<MDXEditorMethods>(null);
@@ -39,8 +41,28 @@ const form = useForm<z.infer<typeof AnswerSchema>>({
   });
 
 const handleSubmit =  async (values: z.infer<typeof AnswerSchema>) => {
+   startAnsweringTransition(async () => {
 
-  console.log(values);
+   const result = await createAnswer({
+     questionId,
+     content: values.content,
+   });
+
+     if (result.success) {
+       form.reset();
+
+      toast({
+        title: "Answer posted successfully",
+        description: "Your answer has been posted successfully"
+      });
+    } else {
+      toast({
+        title: "Failed to post answer",
+        description: result.error?.message,
+        variant: "destructive"
+      });
+   }
+  })
 }
 
 return (
@@ -97,7 +119,7 @@ return (
 
           <div className="flex justify-end">
             <Button type="submit" className="primary-gradient w-fit">
-              {isSubmitting ? (
+              {isAnswering ? (
                 <>
                   <ReloadIcon className="mr-2 size-4 animate-spin" />
                   Posting...

@@ -155,4 +155,12 @@ export const SignInWithOAuthSchema = z.object({
     content: z
       .string()
       .min(100, { message: "Answer must have more than 100 characters." }),
-  })
+  });
+
+  export const AnswerServerSchema = AnswerSchema.extend({
+    questionId: z.string().min(1, { message: "Question ID is required." }),
+  });
+
+  export const GetAnswersSchema = PaginatedSearchParamsSchema.extend({
+    questionId: z.string().min(1, { message: "Question ID is required." }),
+  });
