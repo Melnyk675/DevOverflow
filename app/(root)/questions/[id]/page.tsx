@@ -12,6 +12,7 @@ import { Preview } from '@/components/editor/Preview';
 import { getQuestion, incrementViews } from '@/lib/actions/question.action';
 import AnswerForm from '@/components/forms/AnswerForm';
 import { getAnswers } from '@/lib/actions/answer.action';
+import AllAnswers from '@/components/answers/AllAnswers';
 
 const QuestionDetails = async ({ params }: RouteParams) => {
   const { id } = await params;
@@ -104,6 +105,15 @@ const QuestionDetails = async ({ params }: RouteParams) => {
           />
         ))}
       </div>
+
+      <section className='my-5'>
+         <AllAnswers 
+           data={answersResult?.answers}
+           success={answersLoaded}
+           error={answersError}
+           totalAnswers={answersResult?.totalAnswers || 0}
+         />
+      </section>
 
       <section className='my-5'>
          <AnswerForm 
