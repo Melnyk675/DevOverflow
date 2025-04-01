@@ -400,3 +400,9 @@ code {
   overflow-y: auto !important;
 }
 
+
+[data-bright-mode="dark"]:not(html.light [data-bright-mode="dark"]),
+[data-bright-mode="light"]:not(:not(html.light [data-bright-mode="light"])) {
+  display: grid !important; /* Apply grid only if it's visible */
+  width: 100% !important;
+}
