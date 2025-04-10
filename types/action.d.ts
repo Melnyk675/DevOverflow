@@ -63,3 +63,7 @@ interface SignInWithOAuthParams {
     hasUpvoted: boolean;
     hasDownvoted: boolean;
   }
+
+  interface CollectionBaseParams {
+    questionId: string;
+  }
