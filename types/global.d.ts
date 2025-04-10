@@ -60,3 +60,9 @@ interface Answer {
     downvotes: number;
     question: string;
   }
+
+  interface Collection {
+    _id: string;
+    author: string | Author;
+    question: Question;
+  }
