@@ -1,5 +1,5 @@
 import React from 'react';
-import DataRenderer from '../cards/DataRenderer';
+import DataRenderer from '../DataRenderer';
 import { EMPTY_ANSWERS } from '@/constants/states';
 import AnswerCard from '../cards/AnswerCard';
 

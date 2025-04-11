@@ -1,5 +1,5 @@
 
-import DataRenderer from "@/components/cards/DataRenderer";
+import DataRenderer from "@/components/DataRenderer";
 import TagCard from "@/components/cards/TagCard";
 import LocalSearch from "@/components/search/LocalSearch";
 import ROUTES from "@/constants/routes";
