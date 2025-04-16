@@ -4,6 +4,7 @@ import { EMPTY_ANSWERS } from '@/constants/states';
 import AnswerCard from '../cards/AnswerCard';
 import { AnswerFilters } from '@/constants/filters';
 import CommonFilter from '../filters/CommonFilter';
+import Pagination from '../Pagination';
 
 interface Props extends ActionResponse<Answer[]> {
     page: number;
@@ -12,6 +13,8 @@ interface Props extends ActionResponse<Answer[]> {
   }
 
 const AllAnswers = ({ 
+  page, 
+  isNext,
   data, 
   success, 
   error, 
@@ -40,6 +43,8 @@ const AllAnswers = ({
             <AnswerCard key={answer._id} {...answer} />
       )}
      />
+
+    <Pagination page={page} isNext={isNext} />
     </div>
   )
 }
