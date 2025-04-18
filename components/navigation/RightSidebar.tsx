@@ -8,8 +8,10 @@ import DataRenderer from '../DataRenderer';
 import { getTopTags } from '@/lib/actions/tag.actions';
 
 const RightSidebar = async () => {
-  const { success, data: hotQuestions, error } = await getHotQuestions();
-  const { success: tagSuccess, data: tags, error: tagError } = await getTopTags();
+  const [
+    { success, data: hotQuestions, error },
+    { success: tagSuccess, data: tags, error: tagError },
+  ] = await Promise.all([getHotQuestions(), getTopTags()]);
 
   return (
     <section className='custom-scrollbar pt-36 background-light900_dark200
