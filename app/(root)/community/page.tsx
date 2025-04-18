@@ -7,13 +7,13 @@ import LocalSearch from '@/components/search/LocalSearch';
 import { UserFilters } from '@/constants/filters';
 import ROUTES from '@/constants/routes';
 import { EMPTY_USERS } from '@/constants/states';
-import { getUser } from '@/lib/actions/user.action';
+import { getUsers } from '@/lib/actions/user.action';
 
 
 const Community = async ({ searchParams }: RouteParams) => {
   const { page, pageSize, query, filter } = await searchParams;
 
-  const { success, data, error } = await getUser({
+  const { success, data, error } = await getUsers({
     page: Number(page) || 1,
     pageSize: Number(pageSize) || 10,
     query,
