@@ -8,6 +8,7 @@ import ProfileLink from '@/components/user/ProfileLink';
 import { getUser } from '@/lib/actions/user.action';
 import { Button } from '@/components/ui/button';
 import Stats from '@/components/user/Stats';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Profile = async ({ params }: RouteParams) => {
   const { id } = await params;
@@ -95,6 +96,32 @@ const Profile = async ({ params }: RouteParams) => {
           BRONZE: 0
        }}
      />
+
+     <section className='mt-10 flex gap-10'>
+       <Tabs defaultValue="top-posts" className="flex-[2]">
+        <TabsList className='background-light800_dark400 min-h-[42px] p-1'>
+          <TabsTrigger value="top-posts" className='tab'>
+            Top Posts
+          </TabsTrigger>
+          <TabsTrigger value="answers" className='tab'>
+            Answers
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="top-posts" className='mt-5 w-full flex flex-col gap-6'>
+          List of Questions
+        </TabsContent>
+        <TabsContent value="answers" className='w-full flex flex-col gap-6'>
+          List of Answers
+        </TabsContent>
+       </Tabs>
+
+       <div className='w-full flex min-w-[250px] flex-1 flex-col max-lg:hidden'>
+        <h3 className='h3-bold text-dark200_light900'>Top Tags</h3>
+         <div className='mt-7 flex flex-col gap-4'>
+           <p>List of Tags</p>
+         </div>
+       </div>
+     </section>
    </>
   )
 }
