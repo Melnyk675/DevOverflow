@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { auth } from '@/auth';
 import dayjs from 'dayjs';
 
@@ -6,7 +7,7 @@ import UserAvatar from '@/components/UserAvatar';
 import ProfileLink from '@/components/user/ProfileLink';
 import { getUser } from '@/lib/actions/user.action';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import Stats from '@/components/user/Stats';
 
 const Profile = async ({ params }: RouteParams) => {
   const { id } = await params;
@@ -26,11 +27,12 @@ const Profile = async ({ params }: RouteParams) => {
       </div>
     );
 
-   const { user } = data!;
+   const { user, totalQuestions, totalAnswers } = data!;
    const { _id, name, image, portfolio, location, createdAt, username, bio } =
      user;
 
   return (
+    <>
     <section className="flex flex-col-reverse items-start justify-between sm:flex-row">
      <div className='flex flex-col items-start gap-4 lg:flex-row'>
         <UserAvatar
@@ -45,8 +47,8 @@ const Profile = async ({ params }: RouteParams) => {
           <h2 className="h2-bold text-dark100_light900">{name}</h2>
           <p className="paragraph-regular text-dark200_light800">@{username}</p>
 
-          <div>
-          {portfolio && (
+          <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
+            {portfolio && (
               <ProfileLink
                 imgUrl="/icons/link.svg"
                 href={portfolio}
@@ -83,6 +85,17 @@ const Profile = async ({ params }: RouteParams) => {
         )}
       </div>
     </section>
+
+     <Stats 
+       totalQuestions={totalQuestions}
+       totalAnswers={totalAnswers}
+       badges={{
+          GOLD: 0,
+          SILVER: 0,
+          BRONZE: 0
+       }}
+     />
+   </>
   )
 }
 
