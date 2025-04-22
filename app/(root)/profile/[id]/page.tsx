@@ -5,13 +5,18 @@ import dayjs from 'dayjs';
 
 import UserAvatar from '@/components/UserAvatar';
 import ProfileLink from '@/components/user/ProfileLink';
-import { getUser } from '@/lib/actions/user.action';
+import { getUser, getUserQuestions } from '@/lib/actions/user.action';
 import { Button } from '@/components/ui/button';
 import Stats from '@/components/user/Stats';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import DataRenderer from '@/components/DataRenderer';
+import { EMPTY_QUESTION } from '@/constants/states';
+import QuestionCard from '@/components/cards/QuestionCard';
+import Pagination from '@/components/Pagination';
 
-const Profile = async ({ params }: RouteParams) => {
+const Profile = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;
+  const { page, pageSize } = await searchParams;
 
   if (!id) notFound();
 
@@ -29,6 +34,19 @@ const Profile = async ({ params }: RouteParams) => {
     );
 
    const { user, totalQuestions, totalAnswers } = data!;
+
+   const {
+     success: userQuestionsSuccess,
+     data: userQuestions,
+     error: userQuestionsError,
+   } = await getUserQuestions({
+     userId: id,
+     page: Number(page) || 1,
+     pageSize: Number(pageSize) || 2,
+   });
+
+   const { questions, isNext: hasMoreQuestions } = userQuestions!;
+
    const { _id, name, image, portfolio, location, createdAt, username, bio } =
      user;
 
@@ -108,8 +126,26 @@ const Profile = async ({ params }: RouteParams) => {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="top-posts" className='mt-5 w-full flex flex-col gap-6'>
-          List of Questions
+        <DataRenderer 
+           data={questions}
+           empty={EMPTY_QUESTION}
+           success={userQuestionsSuccess}
+           error={userQuestionsError}
+           render={(hotQuestions) => (
+            <div className='w-full flex flex-col gap-6'>
+              {questions.map((question) => (
+                <QuestionCard
+                  key={question._id}
+                  question={question}
+                 />
+              ))}
+            </div>
+          )}
+        />
+
+        <Pagination page={page} isNext={hasMoreQuestions} />
         </TabsContent>
+
         <TabsContent value="answers" className='w-full flex flex-col gap-6'>
           List of Answers
         </TabsContent>
