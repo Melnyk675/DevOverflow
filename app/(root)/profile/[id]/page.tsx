@@ -5,15 +5,16 @@ import dayjs from 'dayjs';
 
 import UserAvatar from '@/components/UserAvatar';
 import ProfileLink from '@/components/user/ProfileLink';
-import { getUser, getUserQuestions, getUsersAnswers } from '@/lib/actions/user.action';
+import { getUser, getUserQuestions, getUsersAnswers, getUserTopTags } from '@/lib/actions/user.action';
 import { Button } from '@/components/ui/button';
 import Stats from '@/components/user/Stats';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import DataRenderer from '@/components/DataRenderer';
-import { EMPTY_ANSWERS, EMPTY_QUESTION } from '@/constants/states';
+import { EMPTY_ANSWERS, EMPTY_QUESTION, EMPTY_TAGS } from '@/constants/states';
 import QuestionCard from '@/components/cards/QuestionCard';
 import Pagination from '@/components/Pagination';
 import AnswerCard from '@/components/cards/AnswerCard';
+import TagCard from '@/components/cards/TagCard';
 
 const Profile = async ({ params, searchParams }: RouteParams) => {
   const { id } = await params;
@@ -56,9 +57,19 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
     pageSize: Number(pageSize) || 2,
   });
 
+  const {
+    success: userTopTagsSuccess,
+    data: userTopTags,
+    error: userTopTagsError,
+  } = await getUserTopTags({
+    userId: id,
+  });
+
   const { questions, isNext: hasMoreQuestions } = userQuestions!;
 
   const { answers, isNext: hasMoreAnswers } = userAnswers!;
+
+  const { tags } = userTopTags!;
 
    const { _id, name, image, portfolio, location, createdAt, username, bio } =
      user;
@@ -189,7 +200,26 @@ const Profile = async ({ params, searchParams }: RouteParams) => {
        <div className='w-full flex min-w-[250px] flex-1 flex-col max-lg:hidden'>
         <h3 className='h3-bold text-dark200_light900'>Top Tags</h3>
          <div className='mt-7 flex flex-col gap-4'>
-           <p>List of Tags</p>
+           <DataRenderer 
+             data={tags}
+             empty={EMPTY_TAGS}
+             success={userTopTagsSuccess}
+             error={userTopTagsError}
+             render={(tags) => (
+              <div className='w-full flex flex-col gap-4'>
+                {tags.map((tag) => (
+                  <TagCard 
+                    key={tag._id}
+                    _id={tag._id}
+                    name={tag.name}
+                    questions={tag.count}
+                    showCount
+                    compact
+                  />
+                ))}
+              </div>
+            )}
+           />
          </div>
        </div>
      </section>
