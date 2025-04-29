@@ -8,11 +8,9 @@ import ROUTES from '@/constants/routes';
 import { Button } from '../ui/button';
 import { auth, signOut } from '@/auth';
 
-
 const LeftSidebar = async () => {
   const session = await auth();
   const userId = session?.user?.id;
-
 
   return (
     <section className='custom-scrollbar background-light900_dark200
@@ -79,8 +77,6 @@ const LeftSidebar = async () => {
             </Button>
          </>
         )}
-        
-        
       </div>
     </section>
   )
