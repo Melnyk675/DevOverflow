@@ -84,3 +84,7 @@ interface SignInWithOAuthParams {
   interface GetUserTagsParams {
     userId: string;
   }
+
+  interface DeleteQuestionParams {
+    questionId: string;
+  }

@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -13,7 +14,7 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 import { toast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
+import { deleteQuestion } from "@/lib/actions/question.action";
   
 interface Props {
   type: string;
@@ -23,20 +24,23 @@ interface Props {
 const EditDeleteAction = ({ type, itemId }: Props) => {
     const router = useRouter();
 
-    const handleEdit = () => {
+    const handleEdit = async () => {
        router.push(`/questions/${itemId}/edit`);
     };
 
     const handleDelete = async () => {
-       if (type === "Question") {
+       if (type === "question") {
+        await deleteQuestion({ questionId: itemId });
 
         toast({
           title: "Question deleted",
+          variant: "destructive",
           description: "Your question has been deleted successfully.",
         });
-      } else if (type === "Answer") {
+      } else if (type === "answer") {
         toast({
           title: "Answer deleted",
+          variant: "destructive",
           description: "Your answer has been deleted successfully.",
         });
       }
@@ -72,7 +76,7 @@ const EditDeleteAction = ({ type, itemId }: Props) => {
               <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
               <AlertDialogDescription>
                 This action cannot be undone. This will permanently delete your{" "}
-                {type === "Question" ? "question" : "answer"} and remove it from our servers.
+                {type === "question" ? "question" : "answer"} and remove it from our servers.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
