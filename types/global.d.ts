@@ -81,7 +81,7 @@ interface Answer {
     createdAt: Date;
   }
 
-  interface BadgeCounts {
+  interface Badge {
      GOLD: number;
      SILVER: number;
      BRONZE: number;
