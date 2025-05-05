@@ -19,6 +19,7 @@ import {
 } from "../validations";
 import dbConnect from "../mongoose";
 import { Answer, Collection, Vote } from "@/database";
+import { createInteraction } from "./interaction.action";
 
 
 export async function createQuestion(
@@ -78,6 +79,15 @@ export async function createQuestion(
       { $push: { tags: { $each: tagIds } } },
       { session }
     );
+
+    after(async () => {
+      await createInteraction({
+        action: "post",
+        actionId: question._id.toString(),
+        actionTarget: "question",
+        authorId: userId as string,
+      });
+    });
 
     await session.commitTransaction();
 
