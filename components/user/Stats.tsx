@@ -4,7 +4,7 @@ import { formatNumber } from '@/lib/utils';
 interface Props {
     totalAnswers: number;
     totalQuestions: number;
-    badges: Badge;
+    badges: Badges;
     reputationPoints: number;
 }
 
