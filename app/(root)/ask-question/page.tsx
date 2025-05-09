@@ -1,5 +1,4 @@
 import { redirect } from 'next/navigation';
-import React from 'react';
 import QuestionForm from '@/components/forms/QuestionForm';
 import { auth } from '@/auth';
 
