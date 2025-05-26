@@ -233,3 +233,38 @@ export const SignInWithOAuthSchema = z.object({
     query: z.string(),
     type: z.string().nullable().optional(),
   });
+
+  export const ProfileSchema = z.object({
+    name: z
+      .string()
+      .min(3, {
+        message: "Name must be at least 3 characters.",
+      })
+      .max(50, { message: "Name musn't be longer then 50 characters." }),
+    username: z
+      .string()
+      .min(3, { message: "username musn't be longer then 100 characters." }),
+    portfolio: z.string().url({ message: "Please provide valid URL" }),
+    location: z.string().min(3, { message: "Please provide proper location" }),
+    bio: z.string().min(3, {
+      message: "Bio must be at least 3 characters.",
+    }),
+  });
+  
+  export const UpdateUserSchema = z.object({
+    name: z
+      .string()
+      .min(3, {
+        message: "Name must be at least 3 characters.",
+      })
+      .max(50, { message: "Name musn't be longer then 50 characters." }),
+    username: z
+      .string()
+      .min(6, { message: "Username musn't be shorter then 6 characters." })
+      .max(30, { message: "Username must be at most 30 characters long." }),
+    portfolio: z.string().url({ message: "Please provide valid URL" }),
+    location: z.string().min(3, { message: "Please provide proper location" }),
+    bio: z.string().min(3, {
+      message: "Bio must be at least 3 characters.",
+    }),
+  });
