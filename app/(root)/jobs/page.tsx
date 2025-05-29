@@ -13,7 +13,7 @@ const Jobs = async ({ searchParams }: RouteParams) => {
   });
 
   const countries = await fetchCountries();
-  const parsedPage = parseInt(page ?? 1);
+  const parsedPage = parseInt(jobs?.page ?? 1);
 
   console.log(jobs);
 
@@ -29,7 +29,7 @@ const Jobs = async ({ searchParams }: RouteParams) => {
         {jobs?.length > 0 ? (
           jobs
             ?.filter((job: Job) => job.job_title)
-            .map((job: Job) => <JobCard key={job.id} />)
+            .map((job: Job) => <JobCard key={job.id} job={job} />)
         ) : (
           <div className="paragraph-regular text-dark200_light800 w-full text-center">
             Oops! We couldn&apos;t find any jobs at the moment. Please try again
