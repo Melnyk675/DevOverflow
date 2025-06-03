@@ -4,8 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { MDXEditorMethods } from "@mdxeditor/editor";
 import dynamic from "next/dynamic";
-import Image from "next/image";
-import { useRef, useState, useTransition } from "react";
+import { useRef, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -20,8 +19,6 @@ import {
 import { AnswerSchema } from "@/lib/validations";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { toast } from "@/hooks/use-toast";
-import { useSession } from "next-auth/react";
-import { api } from "@/lib/api";
 
 const Editor = dynamic(() => import('@/components/editor'), {
     ssr: false
@@ -33,10 +30,8 @@ interface Props {
     questionContent: string;
 }
 
-const AnswerForm = ({ questionId, questionTitle, questionContent }: Props) => {
+const AnswerForm = ({ questionId }: Props) => {
    const [isAnswering, startAnsweringTransition] = useTransition();
-   const [isAISubmitting, setIsAISubmitting] = useState(false);
-   const session = useSession();
 
 const editorRef = useRef<MDXEditorMethods>(null);
 
@@ -76,54 +71,7 @@ const handleSubmit =  async (values: z.infer<typeof AnswerSchema>) => {
   })
 }
 
-const generateAIAnswer = async () => {
-  if (session.status !== "authenticated") {
-     return toast({
-       title: "Unauthorized",
-       description: "You must be signed in to generate an AI answer"
-     });
-    }
 
-     setIsAISubmitting(true);
-
-     try {
-      const { success, data, error } = await api.ai.getAnswer(
-        questionTitle, 
-        questionContent
-    );
-
-      if(!success) {
-        toast({
-          title: "Error",
-          description: error?.message,
-          variant: "destructive"
-        })
-      }
-
-      const formattedAnswer = data.replace(/<br>/g, " ").toString().trim();
-
-      if (editorRef.current) {
-        editorRef.current.setMarkdown(formattedAnswer);
-
-        form.setValue("content", formattedAnswer);
-        form.trigger("content");
-      }
-
-      toast({
-        title: "Success",
-        description: "AI answer has been generated",
-      });
-     } catch (error) {
-       toast({
-         title: "Error",
-         description: error instanceof Error 
-            ? error.message 
-            : "Something went wrong with your request",
-       })
-     } finally {
-       setIsAISubmitting(false);
-     }
-   }
 
 return (
     <div>
@@ -131,29 +79,7 @@ return (
         <h4 className="paragraph-semibold text-dark400_light800">
           Write your answer here
         </h4>
-        <Button
-          className="btn light-border-2 gap-1.5 rounded-md border px-4 py-2.5 text-primary-500 shadow-none dark:text-primary-500"
-          disabled={isAISubmitting}  
-          onClick={generateAIAnswer}
-        >
-          {isAISubmitting ? (
-            <>
-              <ReloadIcon className="mr-2 size-4 animate-spin" />
-              Generating...
-            </>
-          ) : (
-            <>
-              <Image
-                src="/icons/stars.svg"
-                alt="Generate AI Answer"
-                width={12}
-                height={12}
-                className="object-contain"
-              />
-              Generate AI Answer
-            </>
-          )}
-        </Button>
+       
       </div>
       
     <Form {...form}>
