@@ -71,8 +71,6 @@ const handleSubmit =  async (values: z.infer<typeof AnswerSchema>) => {
   })
 }
 
-
-
 return (
     <div>
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
